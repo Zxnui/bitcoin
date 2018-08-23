@@ -1,76 +1,120 @@
-Bitcoin Core integration/staging tree
-=====================================
+## tx
+## build-aux
+## contrib
+## depends
+## doc
+文档
+## share
+## src
+### 目录
+- bench				共识-法官判断
+- compat			兼容
+- config			配置
+- consensus			共识算法
+- crypto			加密解密
+- index   	
+- interfaces		j事件，节点，钱包类
+- leveldb			水平数据库
+- obj 				cpp编译中间目录
+- obj-test			cpp编译中间目录
+- policy			策略
+- primitives		区块类 交易类
+- qt				图形界面类
+- rpc				通信
+- script 			脚本
+- secp256k1			加密算法
+- support			功能支持类
+- test 				类的功能测试
+- univalue			一致性
+- wallet			钱包类
+- zmq				通信消息
 
-[![Build Status](https://travis-ci.org/bitcoin/bitcoin.svg?branch=master)](https://travis-ci.org/bitcoin/bitcoin)
+### 接口
+- walletinitinterface.h钱包抽象类接口
+- validationinterface.h,cpp区块校验接口
+- ui_interface.h,cpp图形界面接口
 
-https://bitcoincore.org
+### 运行模块
+- bitcoind 			客服端核心模块
+- bitcoin-cli 		rpc客户端
+- bitcoin-tx		交易处理模块
+- bitcoin-qt		qt编写的bitcoin图形化界面客户端
 
-What is Bitcoin?
-----------------
+### 功能模块
+- addrdb			地址数据库类
+- addrman			交易地址
+- amount			控制总量
+- arith_uint256		大整数de算法类
+- base58			编码类
+- bech32			编码类
+- blockencodings	区块编码
+- bloom				筛选器快速查找区块数据
+- chainparamsbase	链参数核心类
+- chain 			把区块链接在一起的类
+- chainparams 		区块参数
+- chainparamsseeds	种子
+- checkpoints		检查点-校验
+- checkqueue		队列校验
+- clientversion		处理客户端
+- coins 			币的核心类
+- compat			兼容32 64 window linux
+- compressor		数据压缩类，发送消息
+- core_io			核心输入输出
+- core_memusage		核心内存管理
+- core_read			核心读
+- core_write		核心写
+- cuckoocache		内存缓存
+- dbwrapper			对于数据库进行封装
+- fs 				文件打开关闭
+- hash 				散列值
+- httprpc 			网页通讯协议
+- httpserver  		通讯服务器
+- indirectmap 		非定向哈希存储结构
+- init 				初始化
+- key 				秘钥类
+- key_io 			key的文件存储
+- keystore 			key存储类，存储为文件，存储到内存
+- limitedmap 		限制类型的哈希结构
+- logging
+- memusage 			内存使用
+- merkleblock		merkle数的区块链结构
+- miner 			挖矿
+- net 				处理网络
+- net_processing 	执行
+- netaddress 		计算机网络地址
+- netbase			网络父类
+- netmessagemaker	处理网络消息
+- noui				链接网络
+- pow				工作量证明-挖矿结构
+- prevector			c++模板类，自定义的可变化的数组数据结构
+- protocol			协议，所有的操作定义
+- pubkey			公钥，非对称加密解密
+- random			随机数
+- rest 				支持类，数据与字符串转换等等
+- reverse_iteratior	反转
+- reverselock		数据反锁
+- scheduler			调度
+- serialize			文件读写序列化
+- shutdown			
+- span 				数据绑定
+- streams			文件流
+- sync				线程同步
+- threadinterrupt	线程中断
+- threadsafety		线程安全
+- timedata			时间的数据格式化
+- tinyformat		数据格式化
+- torcontrol		洋葱网络控制
+- txdb				文件的存储，读写
+- txmempool			内存池
+- uint256 			无符号256位整数类	哈希计算
+- undo				撤销的功能
+- util 				日志，字符串的处理等功能
+- utilmoneystr 		显示比特币类，单位
+- utilstrencodings 	编码解码
+- utiltime			时间处理
+- validation 		数据校验
+- version 			版本信息
+- versionbits		版本判断
+- warnings			处理警告信息
 
-Bitcoin is an experimental digital currency that enables instant payments to
-anyone, anywhere in the world. Bitcoin uses peer-to-peer technology to operate
-with no central authority: managing transactions and issuing money are carried
-out collectively by the network. Bitcoin Core is the name of open source
-software which enables the use of this currency.
-
-For more information, as well as an immediately useable, binary version of
-the Bitcoin Core software, see https://bitcoin.org/en/download, or read the
-[original whitepaper](https://bitcoincore.org/bitcoin.pdf).
-
-License
--------
-
-Bitcoin Core is released under the terms of the MIT license. See [COPYING](COPYING) for more
-information or see https://opensource.org/licenses/MIT.
-
-Development Process
--------------------
-
-The `master` branch is regularly built and tested, but is not guaranteed to be
-completely stable. [Tags](https://github.com/bitcoin/bitcoin/tags) are created
-regularly to indicate new official, stable release versions of Bitcoin Core.
-
-The contribution workflow is described in [CONTRIBUTING.md](CONTRIBUTING.md).
-
-Testing
--------
-
-Testing and code review is the bottleneck for development; we get more pull
-requests than we can review and test on short notice. Please be patient and help out by testing
-other people's pull requests, and remember this is a security-critical project where any mistake might cost people
-lots of money.
-
-### Automated Testing
-
-Developers are strongly encouraged to write [unit tests](src/test/README.md) for new code, and to
-submit new unit tests for old code. Unit tests can be compiled and run
-(assuming they weren't disabled in configure) with: `make check`. Further details on running
-and extending unit tests can be found in [/src/test/README.md](/src/test/README.md).
-
-There are also [regression and integration tests](/test), written
-in Python, that are run automatically on the build server.
-These tests can be run (if the [test dependencies](/test) are installed) with: `test/functional/test_runner.py`
-
-The Travis CI system makes sure that every pull request is built for Windows, Linux, and macOS, and that unit/sanity tests are run automatically.
-
-### Manual Quality Assurance (QA) Testing
-
-Changes should be tested by somebody other than the developer who wrote the
-code. This is especially important for large or high-risk changes. It is useful
-to add a test plan to the pull request description if testing the changes is
-not straightforward.
-
-Translations
-------------
-
-Changes to translations as well as new translations can be submitted to
-[Bitcoin Core's Transifex page](https://www.transifex.com/projects/p/bitcoin/).
-
-Translations are periodically pulled from Transifex and merged into the git repository. See the
-[translation process](doc/translation_process.md) for details on how this works.
-
-**Important**: We do not accept translation changes as GitHub pull requests because the next
-pull from Transifex would automatically overwrite them again.
-
-Translators should also subscribe to the [mailing list](https://groups.google.com/forum/#!forum/bitcoin-translators).
+## test
